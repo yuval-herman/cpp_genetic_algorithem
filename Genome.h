@@ -1,4 +1,3 @@
-#include <string>
 #include "helpers.h"
 
 using namespace std;
@@ -11,8 +10,8 @@ private:
 
 public:
     float getFitness() { return fitness; }
-    virtual float calculateFitness(string goal) = 0;
 
+    virtual float calculateFitness() = 0;
     virtual T crossover(T) = 0;
     virtual T mutation() = 0;
 };
