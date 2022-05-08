@@ -1,0 +1,8 @@
+file is comma delimited.
+each line is another person.
+
+Example:
+
+name luckScore
+ploni,0.1
+almoni,0.8
