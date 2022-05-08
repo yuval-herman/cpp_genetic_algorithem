@@ -1,4 +1,5 @@
 #include "Genome.h"
+#include <string>
 
 class StringGenome : public Genome<StringGenome>
 {
@@ -6,15 +7,10 @@ private:
     string str = "";
     float fitness = 0.f;
 
-    char getRandomChar()
-    {
-        return (char)getRandomNum(32, 126);
-    }
-
 public:
     StringGenome()
     {
-        generateRandomStr();
+        this->str = generateRandomStr();
     }
     StringGenome(string str)
     {
@@ -23,16 +19,6 @@ public:
 
     string getStr() { return str; }
     float getFitness() { return fitness; }
-
-    void generateRandomStr()
-    {
-        str.clear();
-        int len = getRandomNum(2, 1000);
-        for (int i = 0; i < len; i++)
-        {
-            str += getRandomChar();
-        }
-    }
 
     StringGenome crossover(StringGenome mate)
     {
