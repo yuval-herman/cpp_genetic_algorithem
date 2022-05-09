@@ -1,7 +1,6 @@
-#include <iostream>
 #include <algorithm>
 
-#include "StringGenome.h"
+#include "GuardList.h"
 
 #define POP_SIZE 300
 #define GENERATIONS 2000
@@ -10,65 +9,17 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
+    GuardList pop[POP_SIZE];
+    for (int i = 0; i < POP_SIZE; i++)
     {
-        cout << "you need to define a goal!" << endl;
-        return 1;
+        pop[i].FromFile("testPeople.txt").mutation();
     }
-    string goal = argv[1];
-    StringGenome population[POP_SIZE];
-    StringGenome newPop[POP_SIZE];
-    StringGenome winner(goal);
-    winner.calculateFitness(goal);
 
-    for (int generation = 0; generation < GENERATIONS; generation++)
-    {
-        sort(begin(population), end(population), [=](StringGenome a, StringGenome b) -> bool
-             { return a.calculateFitness(goal) > b.calculateFitness(goal); });
-
-        for (int i = 0; i < POP_SIZE; i++)
-        {
-            int first = getRandomNum(0, POP_SIZE / 5);
-            int second = getRandomNum(0, POP_SIZE / 5);
-            while (second == first)
-            {
-                second = getRandomNum(0, POP_SIZE / 5);
-            }
-            StringGenome testGenome = population[first].crossover(population[second]).mutation();
-            for (int j = 0; j < MAX_IMPROVE_TRIES; j++)
-            {
-                if (testGenome.calculateFitness(goal) <= population[first].getFitness())
-                {
-                    testGenome.mutation();
-                }
-                else
-                {
-                    break;
-                }
-            }
-            if (testGenome.getFitness() < population[first].getFitness())
-            {
-                newPop[i] = population[first];
-            }
-            else
-            {
-                newPop[i] = testGenome;
-            }
-        }
-
-        swap(population, newPop);
-        cout << endl
-             << population[0].getStr() << " ---- " << population[0].getFitness() << endl;
-
-        if (population[0].getFitness() >= winner.getFitness())
-        {
-            cout << endl
-                 << endl
-                 << "Finished after " << generation << " generations." << endl
-                 << "Solution:" << endl
-                 << population[0].getStr() << endl;
-            break;
-        }
-    }
+    sort(pop, pop + POP_SIZE, [=](GuardList a, GuardList b)
+         { return a.calculateFitness() > b.calculateFitness(); });
+    cout << pop[0] << endl;
+    // GuardList test;
+    // test.FromFile("testPeople.txt");
+    // cout << test<<endl;
     return 0;
 }

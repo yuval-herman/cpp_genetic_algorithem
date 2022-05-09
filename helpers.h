@@ -13,13 +13,16 @@ char getRandomChar()
 {
     return (char)getRandomNum(32, 126);
 }
-string generateRandomStr()
+string getRandomStr(int size)
 {
     string str = "";
-    int len = getRandomNum(2, 1000);
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < size; i++)
     {
         str += getRandomChar();
     }
     return str;
+}
+string getRandomStr()
+{
+    return getRandomStr(getRandomNum(2, 1000));
 }
