@@ -3,7 +3,7 @@
 #include "GuardList.h"
 
 #define POP_SIZE 300
-#define GENERATIONS 500
+#define GENERATIONS 100
 #define MAX_IMPROVE_TRIES 10
 using namespace std;
 
@@ -31,16 +31,17 @@ int main(int argc, char *argv[])
     {
         sortPop(pop);
 
-        cout << "gen " << generation << " end, best fitness is " << pop[0].calculateFitness() << endl;
+        cout << "gen " << generation << " end, best fitness is " << pop[0].calculateFitness() << '\r';
         for (int i = 0; i < POP_SIZE; i++)
         {
-            nextPop[i] = select(pop, POP_SIZE / 5)->crossover(*select(pop, POP_SIZE / 5)).mutate(1.f);
+            nextPop[i] = select(pop, POP_SIZE / 5)->crossover(*select(pop, POP_SIZE / 5)).mutate(.1f);
         }
         swap(nextPop, pop);
     }
 
     sortPop(pop);
-    cout << pop[0] << endl
+    cout << endl
+         << pop[0] << endl
          << pop[0].calculateFitness() << endl;
     return 0;
 }
