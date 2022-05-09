@@ -3,8 +3,8 @@
 #include "GuardList.h"
 
 #define POP_SIZE 300
-#define GENERATIONS 100
-#define MAX_IMPROVE_TRIES 10
+#define GENERATIONS 1000
+#define MAX_IMPROVE_GENERATIONS 10
 using namespace std;
 
 GuardList *select(GuardList *pop, int selectionRange)
@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
 {
     GuardList pop[POP_SIZE];
     GuardList nextPop[POP_SIZE];
+    float prevFitness = 0.f;
+    int noImproveCounter = 0;
     for (int i = 0; i < POP_SIZE; i++)
     {
         pop[i].FromFile("testPeople.txt").mutate(1.f);
@@ -30,6 +32,15 @@ int main(int argc, char *argv[])
     for (int generation = 0; generation < GENERATIONS; generation++)
     {
         sortPop(pop);
+        if (pop[0].getFitness() <= prevFitness)
+        {
+            noImproveCounter++;
+        }
+        if (noImproveCounter == MAX_IMPROVE_GENERATIONS)
+        {
+            break;
+        }
+        prevFitness = pop[0].getFitness();
 
         cout << "gen " << generation << " end, best fitness is " << pop[0].calculateFitness() << '\r';
         for (int i = 0; i < POP_SIZE; i++)
