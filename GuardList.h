@@ -14,7 +14,7 @@ public:
     //     this->people = new Person[amount];
     // }
 
-    GuardList(){}
+    GuardList() {}
 
     GuardList(vector<Person> people)
     {
@@ -49,24 +49,42 @@ public:
 
     float calculateFitness()
     {
-        float avgScore = 0.f;
+        double avgScore = 0.f;
         int bef, aft;
         float maxScore = (people.size() - 1) / 2;
         for (int i = 0; i < people.size(); i++)
         {
             // take the shorter rest time, before or after the guard.
-            // the divide it by the shortest rest time possible.
+            // then divide it by the shortest rest time possible.
             // the ones that rest the most time will get a zero score and the ones who rest the shortest will get one.
-            avgScore += people[i].getGrindScore() - min((unsigned long)i, people.size() - 1 - i) / maxScore;
+            avgScore += abs(people[i].getGrindScore() -min((unsigned long)i, people.size() - 1 - i) / maxScore);
+            // cout << abs(people[i].getGrindScore() -min((unsigned long)i, people.size() - 1 - i) / maxScore) << endl;abs(people[i].getGrindScore() -min((unsigned long)i, people.size() - 1 - i) / maxScore);
         }
-        return avgScore / people.size();
+        fitness = avgScore / people.size();
+        return fitness;
     }
     GuardList crossover(GuardList mate)
     {
+        int swapIndex = getRandomNum(0, people.size()-1);
+        string swapName = mate.people[swapIndex].getName();
+        swap(people[swapIndex], *find_if(people.begin(), people.end(), [&](Person p){return p.getName() == swapName;}));
         return *this;
     }
-    GuardList mutation()
+    GuardList mutate(float rate)
     {
+        if (people.size() < 2)
+            return *this;
+        int firstI = getRandomNum(0, people.size() - 1);
+        int secondI = getRandomNum(0, people.size() - 1);
+
+        if (getRandomNum(0, 100)>rate*100)
+            return *this;
+
+        while (secondI == firstI)
+        {
+            secondI = getRandomNum(0, people.size() - 1);
+        }
+        swap(people[firstI], people[secondI]);
         return *this;
     }
 };

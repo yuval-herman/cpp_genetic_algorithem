@@ -5,7 +5,7 @@ template <class T>
 
 class Genome
 {
-private:
+protected:
     float fitness = 0.f;
 
 public:
@@ -13,5 +13,5 @@ public:
 
     virtual float calculateFitness() = 0;
     virtual T crossover(T) = 0;
-    virtual T mutation() = 0;
+    virtual T mutate(float rate) = 0;
 };
