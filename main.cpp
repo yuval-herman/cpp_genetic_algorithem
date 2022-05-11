@@ -1,6 +1,4 @@
-#include <algorithm>
-
-#include "GuardList.h"
+#include "headers.h"
 
 #define POP_SIZE 300
 #define GENERATIONS 1000

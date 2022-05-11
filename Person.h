@@ -1,5 +1,4 @@
-#include "Genome.h"
-#include <string>
+#include "headers.h"
 
 class Person
 {

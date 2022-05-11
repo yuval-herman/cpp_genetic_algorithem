@@ -1,7 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include "Person.h"
+#include "headers.h"
 
 class GuardList : public Genome<GuardList>
 {
